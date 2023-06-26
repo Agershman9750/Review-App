@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Reviews</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page">
+            <div class="header">
+                <div class="header-content">
+                    <h1>Review App</h1>
+                    <p>Reviews for places</p>
+                </div>
+                <h1 class="username"> {{user.first_name}} {{user.last_name}}</h1>
+            </div>
+            <div class="header-links">
+                <a class="links" href="/new/review">Create listing</a>
+                <a class="links" href="/user/logout">Logout</a>
+            </div>
+            <div class="tabletitle">
+                <h2>Reviews:</h2>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Location:</th>
+                            <th>Address</th>
+                            <th>Posted by:</th>
+                            <th>When:</th>
+                            <th>Rating:</th>
+                            <th>Actions:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for location in locations %}
+                        <tr>
+                            <td>{{location.type}}</td>
+                            <td>{{location.address}}</td>
+                            <td>{{location.creator.first_name}}</td>
+                            <td>{{location.date_made.strftime('%B %dth, %Y')}}</td>
+                            <td>{{location.amount}}/10</td>
+                            <td>
+                                <a href="/show/{{location.id}}">Info </a>
+                                {% if session['users_id'] == location.creator.id %}
+                                <a href="/edit/{{location.id}}">Edit</a>
+                                <a href="/destroy/{{location.id}}">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
